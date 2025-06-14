@@ -4,6 +4,37 @@ public class ASTLet implements ASTNode {
     List<Bind> decls;
     ASTNode body;
 
+    public ASTType typecheck(Environment<ASTType> e) throws TypeCheckerError {
+        try {
+        Environment<ASTType> en = e.beginScope();
+        for (Bind b : decls) {
+            if (b.getType() != null) {
+                ASTType t = b.getType();
+                if (t instanceof ASTTId) {
+                    t = ((ASTTId) t).get(en);
+                }
+
+                en.assoc(b.getId(), t);
+                
+                ASTType exp = b.getExp().typecheck(en);
+
+                if (!t.isSubTypeOf(exp, en))
+                    throw new TypeCheckerError("Illegal type for " + b.getId() + ": expected " + t.toStr() + ", found " + exp.toStr());
+                
+                
+            } else {
+                ASTType t = b.getExp().typecheck(en);
+                en.assoc(b.getId(), t);
+            }
+        }
+        ASTType bodyType = body.typecheck(en);
+        en.endScope();
+        return bodyType;
+        } catch (InterpreterError err){
+            throw new TypeCheckerError(err.getMessage());
+        }
+    }
+
     public IValue eval(Environment<IValue> e) throws InterpreterError {
 	Environment<IValue> en = e.beginScope();
         for (Bind b : decls) {

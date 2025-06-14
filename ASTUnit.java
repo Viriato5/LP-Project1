@@ -1,13 +1,12 @@
-class ASTNil implements ASTNode  {
+public class ASTUnit implements ASTNode {
+
+    public ASTUnit() {}
 
     public ASTType typecheck(Environment<ASTType> e) throws TypeCheckerError {
-        return new ASTTList(new ASTTUnit());         
+        return new ASTTUnit();
     }
 
     public IValue eval(Environment<IValue> e) throws InterpreterError {
-	    return new VNil();                
+		return new VUnit();
     }
-
-    ASTNil() {}
-
 }
