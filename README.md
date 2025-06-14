@@ -13,7 +13,7 @@
 
 - **Run:**  
   Execute the program with:  
-  `java L0int`
+  `./x++ <test_file_path>`
 
 - **Clean:**  
   Remove compiled files with:  
@@ -23,4 +23,4 @@
 
 ### Report
 
-You can find the project report [here](./report.pdf).
+You can find the project report [here](./LPReport.pdf).
